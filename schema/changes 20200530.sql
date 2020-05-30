@@ -3,7 +3,7 @@ CREATE TABLE `role` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -13,13 +13,29 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`),
   KEY `roleid_idx` (`roleid`),
   CONSTRAINT `fk_user_role` FOREIGN KEY (`roleid`) REFERENCES `role` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --===== INSERT =====--
+SET SQL_SAFE_UPDATES = 0;
+ALTER TABLE role AUTO_INCREMENT = 0;
 INSERT INTO role(name) VALUES ('student');
 INSERT INTO role(name) VALUES ('instructor');
 
 --===== PROCEDURE =====--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_create_course`(IN p_id INT,
+IN p_title VARCHAR(50),
+IN p_credits INT)
+BEGIN
+	INSERT INTO `school`.`course`
+	(`courseid`,
+	`title`,
+	`credits`)
+	VALUES
+	(p_id,
+	p_title,
+	p_credits);
+END
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_notes_by_student`(IN p_enrollment_id INT)
 BEGIN
 	SELECT noteid,
