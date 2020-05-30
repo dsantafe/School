@@ -18,6 +18,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Students extends javax.swing.JFrame {
 
+    public static int roleId;
+
     /**
      * Creates new form Students
      */
@@ -219,14 +221,19 @@ public class Students extends javax.swing.JFrame {
             List<Student> students = new ArrayList<>();
             StudentService studentService = new StudentService();
 
+            if (roleId == 1 && txtCode.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "Debe ingresar el código del estudiante.");
+                return;
+            }
+
             if (txtCode.getText().isEmpty()) {
                 students = studentService.GetAll();
             } else {
                 int code = Integer.parseInt(txtCode.getText());
 
-                Student student =  new Student();
+                Student student = new Student();
                 student = studentService.GetById(code);
-                
+
                 if (student.getId() != 0) {
                     students.add(studentService.GetById(code));
                 }
@@ -321,8 +328,13 @@ public class Students extends javax.swing.JFrame {
     }//GEN-LAST:event_tbDataMouseClicked
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        Menu menu = new Menu();
-        menu.setVisible(true);
+        if (this.roleId == 1) {
+            MenuStudent menuStudent = new MenuStudent();
+            menuStudent.setVisible(true);
+        } else {
+            Menu menu = new Menu();
+            menu.setVisible(true);
+        }
         dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 

@@ -7,9 +7,11 @@ package com.school.views;
 
 import com.school.models.Student;
 import com.school.models.Course;
+import com.school.models.Note;
 import com.school.services.StudentService;
 import com.school.services.EnrollmentService;
 import com.school.services.CourseService;
+import com.school.services.NoteService;
 import java.awt.HeadlessException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,6 +25,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Enrollments extends javax.swing.JFrame {
 
+    public static int roleId;
+
     /**
      * Creates new form Enrollments
      */
@@ -30,6 +34,10 @@ public class Enrollments extends javax.swing.JFrame {
         initComponents();
         tbDataCourses.setModel(new DefaultTableModel());
         tbDataEnrollments.setModel(new DefaultTableModel());
+
+        lblStudentIdAdd.setVisible(false);
+        lblCourseIdAdd.setVisible(false);
+        lblEnrollmentId.setVisible(false);
     }
 
     /**
@@ -63,6 +71,7 @@ public class Enrollments extends javax.swing.JFrame {
         btnBack = new javax.swing.JButton();
         lblCourseIdAdd = new javax.swing.JLabel();
         lblStudentIdAdd = new javax.swing.JLabel();
+        lblEnrollmentId = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -157,6 +166,8 @@ public class Enrollments extends javax.swing.JFrame {
 
         lblStudentIdAdd.setText(".");
 
+        lblEnrollmentId.setText(".");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,7 +203,9 @@ public class Enrollments extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lblTitle3)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(lblCourseIdAdd))
+                                        .addComponent(lblCourseIdAdd)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblEnrollmentId))
                                     .addComponent(btnCourseAdd)
                                     .addComponent(btnCourseRemove)
                                     .addGroup(layout.createSequentialGroup()
@@ -204,7 +217,7 @@ public class Enrollments extends javax.swing.JFrame {
                                 .addComponent(lblStudentIdAdd))))
                     .addComponent(lblTitle1)
                     .addComponent(lblTitle2))
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,7 +247,8 @@ public class Enrollments extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblTitle3)
-                            .addComponent(lblCourseIdAdd))
+                            .addComponent(lblCourseIdAdd)
+                            .addComponent(lblEnrollmentId))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblCourseTitleAdd)
@@ -260,6 +274,11 @@ public class Enrollments extends javax.swing.JFrame {
             Student student = new Student();
             StudentService studentService = new StudentService();
 
+            if (txtStudentId.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "Debe ingresar el código del estudiante.");
+                return;
+            }
+
             int code = Integer.parseInt(txtStudentId.getText());
 
             student = studentService.GetById(code);
@@ -272,9 +291,9 @@ public class Enrollments extends javax.swing.JFrame {
 
                 lblStudentIdAdd.setText(String.valueOf(student.getId()));
                 lblStudentIdAdd.setVisible(false);
-                
+
                 lblStudentEnrollmentDateAdd.setText(String.valueOf(student.getEnrollmentDate()));
-                
+
                 String fullName = student.getLastName() + " " + student.getFirstMidName();
                 lblStudentFullNameAdd.setText(fullName);
 
@@ -283,10 +302,10 @@ public class Enrollments extends javax.swing.JFrame {
 
                 coursesEnrollment = enrollmentService.GetCoursesByStudent(code);
 
-                String[] columnsEnrollments = {"Id", "Titulo", "Creditos"};
+                String[] columnsEnrollments = {"Id", "Titulo", "Creditos", "Matricula"};
                 DefaultTableModel modelEnrollments = new DefaultTableModel(null, columnsEnrollments);
 
-                String[] rowsEnrollments = new String[3];
+                String[] rowsEnrollments = new String[4];
                 List<Integer> coursesId = new ArrayList<>();
 
                 for (Course item : coursesEnrollment) {
@@ -294,6 +313,7 @@ public class Enrollments extends javax.swing.JFrame {
                     rowsEnrollments[0] = String.valueOf(item.getCourseId());
                     rowsEnrollments[1] = item.getTitle();
                     rowsEnrollments[2] = String.valueOf(item.getCredits());
+                    rowsEnrollments[3] = String.valueOf(item.getEnrollmentId());
 
                     modelEnrollments.addRow(rowsEnrollments);
                     coursesId.add(item.getCourseId());
@@ -342,8 +362,14 @@ public class Enrollments extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStudentSearchActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        Menu menu = new Menu();
-        menu.setVisible(true);
+
+        if (this.roleId == 1) {
+            MenuStudent menuStudent = new MenuStudent();
+            menuStudent.setVisible(true);
+        } else {
+            Menu menu = new Menu();
+            menu.setVisible(true);
+        }
         dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
@@ -365,6 +391,7 @@ public class Enrollments extends javax.swing.JFrame {
                 lblCourseIdAdd.setText(String.valueOf(course.getCourseId()));
                 lblCourseIdAdd.setVisible(false);
                 lblCourseTitleAdd.setText(course.getTitle());
+                lblEnrollmentId.setText(tbDataEnrollments.getValueAt(row, 3).toString());
             }
         } catch (NumberFormatException | SQLException | ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
@@ -397,35 +424,43 @@ public class Enrollments extends javax.swing.JFrame {
 
     private void btnCourseRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCourseRemoveActionPerformed
         try {
-            
+
+            int enrollmentId = Integer.valueOf(lblEnrollmentId.getText());
+            NoteService noteService = new NoteService();
+            List<Note> notes = noteService.GetNotes(enrollmentId);
+
+            if (!notes.isEmpty()) {
+                throw new Exception("No es posible eliminar el curso matriculado porque posee notas registradas.");
+            }
+
             int courseId = Integer.valueOf(lblCourseIdAdd.getText());
             int studentId = Integer.valueOf(lblStudentIdAdd.getText());
-            
+
             EnrollmentService enrollmentService = new EnrollmentService();
-            
+
             enrollmentService.Delete(courseId, studentId);
-            
+
             btnStudentSearchActionPerformed(evt);
-            JOptionPane.showMessageDialog(rootPane, "Se realizo proceso con exito.");            
-            
-        } catch (NumberFormatException | SQLException | ClassNotFoundException | HeadlessException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Se realizo proceso con exito.");
+
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
     }//GEN-LAST:event_btnCourseRemoveActionPerformed
 
     private void btnCourseAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCourseAddActionPerformed
         try {
-            
+
             int courseId = Integer.valueOf(lblCourseIdAdd.getText());
             int studentId = Integer.valueOf(lblStudentIdAdd.getText());
-            
+
             EnrollmentService enrollmentService = new EnrollmentService();
-            
+
             enrollmentService.Create(courseId, studentId);
-            
+
             btnStudentSearchActionPerformed(evt);
-            JOptionPane.showMessageDialog(rootPane, "Se realizo proceso con exito.");            
-            
+            JOptionPane.showMessageDialog(rootPane, "Se realizo proceso con exito.");
+
         } catch (NumberFormatException | SQLException | ClassNotFoundException | HeadlessException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
@@ -476,6 +511,7 @@ public class Enrollments extends javax.swing.JFrame {
     private javax.swing.JLabel lblCourseIdAdd;
     private javax.swing.JLabel lblCourseTitle;
     private javax.swing.JLabel lblCourseTitleAdd;
+    private javax.swing.JLabel lblEnrollmentId;
     private javax.swing.JLabel lblStudentCode;
     private javax.swing.JLabel lblStudentEnrollmentDate;
     private javax.swing.JLabel lblStudentEnrollmentDateAdd;

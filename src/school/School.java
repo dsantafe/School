@@ -5,7 +5,7 @@
  */
 package school;
 
-import com.school.views.Menu;
+import com.school.views.Login;
 
 /**
  *
@@ -17,8 +17,8 @@ public class School {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Menu menu = new Menu();
-        menu.setVisible(true);
+        Login login = new Login();
+        login.setVisible(true);
     }
 
 }

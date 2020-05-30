@@ -7,6 +7,7 @@ package com.school.services;
 
 import com.school.data.SchoolContext;
 import com.school.models.Course;
+import com.school.models.Student;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,12 +37,44 @@ public class EnrollmentService {
                 Course course = new Course();
                 course.setCourseId(rs.getInt("courseid"));
                 course.setTitle(rs.getString("title"));
-                course.setCredits(rs.getInt("credits"));                
+                course.setCredits(rs.getInt("credits"));          
+                course.setEnrollmentId(rs.getInt("enrollmentid"));
                 
                 courses.add(course);
             }
             
             return courses;
+        } catch (SQLException | ClassNotFoundException ex) {
+            throw ex;
+        }
+    }
+    
+    public List<Student> GetStudentsByCourse(int id) throws SQLException, ClassNotFoundException {
+        try {
+            List<Student> students = new ArrayList<>();
+            
+            Connection cnx = SchoolContext.GetConnection();
+            PreparedStatement ps = cnx.prepareStatement("{ call sp_get_studens_by_course(?) }");
+            
+            //parameters
+            ps.setInt(1, id);
+            
+            //execute
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                Student student = new Student();
+                student.setId(rs.getInt("id"));
+                student.setLastName(rs.getString("lastname"));
+                student.setFirstMidName(rs.getString("firstmidname"));
+                student.setEnrollmentDate(rs.getDate("enrollmentdate"));
+                student.setCode(rs.getInt("code"));
+                student.setEnrollmentId(rs.getInt("enrollmentid"));
+
+                students.add(student);
+            }
+            
+            return students;
         } catch (SQLException | ClassNotFoundException ex) {
             throw ex;
         }

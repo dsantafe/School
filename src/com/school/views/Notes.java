@@ -5,6 +5,18 @@
  */
 package com.school.views;
 
+import com.school.models.Course;
+import com.school.models.Note;
+import com.school.models.Student;
+import com.school.services.CourseService;
+import com.school.services.EnrollmentService;
+import com.school.services.NoteService;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author EliteBook
@@ -16,6 +28,42 @@ public class Notes extends javax.swing.JFrame {
      */
     public Notes() {
         initComponents();
+        LoadCourses();
+        lblEnrollmentId.setVisible(false);
+        lblCourseId.setVisible(false);
+        tbDataNotes.setModel(new DefaultTableModel());
+        tbDataStudents.setModel(new DefaultTableModel());
+    }
+
+    public void LoadCourses() {
+
+        try {
+            List<Course> courses = new ArrayList<>();
+            CourseService courseService = new CourseService();
+            courses = courseService.GetAll();
+
+            String[] columns = {"Id", "Titulo", "Creditos"};
+            DefaultTableModel model = new DefaultTableModel(null, columns);
+
+            String[] rows = new String[3];
+
+            for (Course item : courses) {
+                rows[0] = String.valueOf(item.getCourseId());
+                rows[1] = item.getTitle();
+                rows[2] = String.valueOf(item.getCredits());
+
+                model.addRow(rows);
+            }
+
+            if (courses.isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "No se encontraron registros.");
+                tbDataCourses.setModel(new DefaultTableModel());
+            } else {
+                tbDataCourses.setModel(model);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
     }
 
     /**
@@ -27,21 +75,323 @@ public class Notes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblCourses = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbDataCourses = new javax.swing.JTable();
+        lblTitle1 = new javax.swing.JLabel();
+        lblCourseName = new javax.swing.JLabel();
+        lblCourseId = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbDataStudents = new javax.swing.JTable();
+        lblTitle2 = new javax.swing.JLabel();
+        lblStudentFullName = new javax.swing.JLabel();
+        lblEnrollmentId = new javax.swing.JLabel();
+        lblNote = new javax.swing.JLabel();
+        txtNote = new javax.swing.JTextField();
+        btnSave = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tbDataNotes = new javax.swing.JTable();
+        lblTitle3 = new javax.swing.JLabel();
+        lblStudents = new javax.swing.JLabel();
+        btnBack = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        lblCourses.setText("Cursos");
+
+        tbDataCourses.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tbDataCourses.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbDataCoursesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbDataCourses);
+
+        lblTitle1.setText("Curso seleccionado:");
+
+        lblCourseName.setText("-");
+
+        lblCourseId.setText("-");
+
+        tbDataStudents.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tbDataStudents.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbDataStudentsMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tbDataStudents);
+
+        lblTitle2.setText("Estudiante seleccionado:");
+
+        lblStudentFullName.setText("-");
+
+        lblEnrollmentId.setText("-");
+
+        lblNote.setText("Nota:");
+
+        btnSave.setText("Guardar");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        tbDataNotes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(tbDataNotes);
+
+        lblTitle3.setText("Notas");
+
+        lblStudents.setText("Estudiantes");
+
+        btnBack.setText("Volver");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTitle3)
+                    .addComponent(lblStudents)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(lblCourses)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnBack))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(lblTitle2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(lblStudentFullName)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblEnrollmentId))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addComponent(lblTitle1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(lblCourseName)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblCourseId))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(lblNote)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtNote, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSave)))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCourses)
+                    .addComponent(btnBack))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTitle1)
+                    .addComponent(lblCourseName)
+                    .addComponent(lblCourseId))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblStudents)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTitle2)
+                    .addComponent(lblStudentFullName)
+                    .addComponent(lblEnrollmentId))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNote)
+                    .addComponent(txtNote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSave))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblTitle3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tbDataCoursesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDataCoursesMouseClicked
+
+        try {
+
+            if (evt.getButton() == 1) {
+                int row = tbDataCourses.getSelectedRow();
+
+                lblCourseId.setText(tbDataCourses.getValueAt(row, 0).toString());
+                lblCourseId.setVisible(false);
+                lblCourseName.setText(tbDataCourses.getValueAt(row, 1).toString());
+
+                LoadStudentsByCourse();
+                tbDataNotes.setModel(new DefaultTableModel());
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
+
+    }//GEN-LAST:event_tbDataCoursesMouseClicked
+
+    private void LoadStudentsByCourse() {
+        try {
+
+            List<Student> students = new ArrayList<>();
+            EnrollmentService enrollmentService = new EnrollmentService();
+            int courseId = Integer.valueOf(lblCourseId.getText());
+
+            students = enrollmentService.GetStudentsByCourse(courseId);
+
+            if (students.isEmpty()) {
+                tbDataStudents.setModel(new DefaultTableModel());
+                throw new Exception("No se encontraron estudiantes matriculados.");
+            } else {
+                String[] columns = {"Id", "Apellidos", "Nombres", "Fecha", "Código", "Matricula"};
+                DefaultTableModel model = new DefaultTableModel(null, columns);
+
+                String[] rows = new String[6];
+
+                for (Student item : students) {
+                    rows[0] = String.valueOf(item.getId());
+                    rows[1] = item.getLastName();
+                    rows[2] = item.getFirstMidName();
+                    rows[3] = String.valueOf(item.getEnrollmentDate());
+                    rows[4] = String.valueOf(item.getCode());
+                    rows[5] = String.valueOf(item.getEnrollmentId());
+
+                    model.addRow(rows);
+                }
+
+                tbDataStudents.setModel(model);
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
+    }
+
+    private void tbDataStudentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDataStudentsMouseClicked
+        try {
+
+            if (evt.getButton() == 1) {
+                int row = tbDataStudents.getSelectedRow();
+
+                lblEnrollmentId.setText(tbDataStudents.getValueAt(row, 5).toString());
+
+                String fullName = tbDataStudents.getValueAt(row, 1).toString()
+                        + tbDataStudents.getValueAt(row, 2).toString();
+                lblStudentFullName.setText(fullName);
+
+                LoadNotesByStudent();
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
+    }//GEN-LAST:event_tbDataStudentsMouseClicked
+
+    private void LoadNotesByStudent() {
+        try {
+
+            List<Note> notes = new ArrayList<>();
+            NoteService noteService = new NoteService();
+            int enrollmentId = Integer.valueOf(lblEnrollmentId.getText());
+
+            notes = noteService.GetNotes(enrollmentId);
+
+            if (notes.isEmpty()) {
+                tbDataNotes.setModel(new DefaultTableModel());
+                throw new Exception("No se encontraron notas registradas.");
+            } else {
+                String[] columns = {"Nota"};
+                DefaultTableModel model = new DefaultTableModel(null, columns);
+
+                String[] rows = new String[1];
+
+                for (Note item : notes) {
+                    rows[0] = String.valueOf(item.getFinal());
+
+                    model.addRow(rows);
+                }
+
+                tbDataNotes.setModel(model);
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
+    }
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        try {
+
+            if (lblEnrollmentId.getText().isEmpty()) {
+                throw new Exception("Debe seleccionar algun estudiante.");
+            } else if (txtNote.getText().isEmpty()) {
+                throw new Exception("Debe ingresar la nota.");
+            }
+
+            int enrollmentId = Integer.valueOf(lblEnrollmentId.getText());
+            int note = Integer.valueOf(txtNote.getText());
+
+            NoteService noteService = new NoteService();
+            noteService.Create(enrollmentId, note);
+
+            JOptionPane.showMessageDialog(rootPane, "Se realizo proceso con exito.");
+            LoadNotesByStudent();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        Menu menu = new Menu();
+        menu.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +429,24 @@ public class Notes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblCourseId;
+    private javax.swing.JLabel lblCourseName;
+    private javax.swing.JLabel lblCourses;
+    private javax.swing.JLabel lblEnrollmentId;
+    private javax.swing.JLabel lblNote;
+    private javax.swing.JLabel lblStudentFullName;
+    private javax.swing.JLabel lblStudents;
+    private javax.swing.JLabel lblTitle1;
+    private javax.swing.JLabel lblTitle2;
+    private javax.swing.JLabel lblTitle3;
+    private javax.swing.JTable tbDataCourses;
+    private javax.swing.JTable tbDataNotes;
+    private javax.swing.JTable tbDataStudents;
+    private javax.swing.JTextField txtNote;
     // End of variables declaration//GEN-END:variables
 }

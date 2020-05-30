@@ -32,10 +32,11 @@ public class Menu extends javax.swing.JFrame {
         jmStudents = new javax.swing.JMenu();
         jmStudentsManagement = new javax.swing.JMenuItem();
         jmCourses = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jmCoursesManagement = new javax.swing.JMenuItem();
         jmEnrollments = new javax.swing.JMenu();
         jmEnrollmentsManagement = new javax.swing.JMenuItem();
         jmNotes = new javax.swing.JMenu();
+        jmNotesManagement = new javax.swing.JMenuItem();
         jmOthers = new javax.swing.JMenu();
         jmClose = new javax.swing.JMenuItem();
 
@@ -58,13 +59,13 @@ public class Menu extends javax.swing.JFrame {
 
         jmCourses.setText("Cursos");
 
-        jMenuItem1.setText("Administrar");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jmCoursesManagement.setText("Administrar");
+        jmCoursesManagement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jmCoursesManagementActionPerformed(evt);
             }
         });
-        jmCourses.add(jMenuItem1);
+        jmCourses.add(jmCoursesManagement);
 
         jMenuBar1.add(jmCourses);
 
@@ -81,6 +82,15 @@ public class Menu extends javax.swing.JFrame {
         jMenuBar1.add(jmEnrollments);
 
         jmNotes.setText("Notas");
+
+        jmNotesManagement.setText("Administrar");
+        jmNotesManagement.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmNotesManagementActionPerformed(evt);
+            }
+        });
+        jmNotes.add(jmNotesManagement);
+
         jMenuBar1.add(jmNotes);
 
         jmOthers.setText("Otros");
@@ -112,26 +122,36 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jmStudentsManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmStudentsManagementActionPerformed
+        Students.roleId = 2;
         Students students = new Students();
         students.setVisible(true);
         dispose();
     }//GEN-LAST:event_jmStudentsManagementActionPerformed
 
     private void jmEnrollmentsManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmEnrollmentsManagementActionPerformed
+        Enrollments.roleId = 2;
         Enrollments enrollments = new Enrollments();
         enrollments.setVisible(true);
         dispose();
     }//GEN-LAST:event_jmEnrollmentsManagementActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jmCoursesManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmCoursesManagementActionPerformed
         Courses courses = new Courses();
         courses.setVisible(true);
         dispose();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_jmCoursesManagementActionPerformed
 
     private void jmCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmCloseActionPerformed
+        Login login = new Login();
+        login.setVisible(true);
         dispose();
     }//GEN-LAST:event_jmCloseActionPerformed
+
+    private void jmNotesManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmNotesManagementActionPerformed
+        Notes notes = new Notes();
+        notes.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jmNotesManagementActionPerformed
 
     /**
      * @param args the command line arguments
@@ -171,12 +191,13 @@ public class Menu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jmClose;
     private javax.swing.JMenu jmCourses;
+    private javax.swing.JMenuItem jmCoursesManagement;
     private javax.swing.JMenu jmEnrollments;
     private javax.swing.JMenuItem jmEnrollmentsManagement;
     private javax.swing.JMenu jmNotes;
+    private javax.swing.JMenuItem jmNotesManagement;
     private javax.swing.JMenu jmOthers;
     private javax.swing.JMenu jmStudents;
     private javax.swing.JMenuItem jmStudentsManagement;

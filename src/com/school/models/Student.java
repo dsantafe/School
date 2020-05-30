@@ -17,6 +17,15 @@ public class Student {
     public String FirstMidName;
     public Date EnrollmentDate; 
     public int Code;
+    public int enrollmentId;
+
+    public int getEnrollmentId() {
+        return enrollmentId;
+    }
+
+    public void setEnrollmentId(int enrollmentId) {
+        this.enrollmentId = enrollmentId;
+    }
 
     public int getId() {
         return Id;

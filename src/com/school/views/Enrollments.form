@@ -60,6 +60,8 @@
                                       <Component id="lblTitle3" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="lblCourseIdAdd" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="lblEnrollmentId" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="btnCourseAdd" min="-2" max="-2" attributes="0"/>
                                   <Component id="btnCourseRemove" min="-2" max="-2" attributes="0"/>
@@ -79,7 +81,7 @@
                   <Component id="lblTitle1" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="lblTitle2" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="67" max="32767" attributes="0"/>
+              <EmptySpace pref="60" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -115,6 +117,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblTitle3" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblCourseIdAdd" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblEnrollmentId" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -286,6 +289,11 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblStudentIdAdd">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="."/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblEnrollmentId">
       <Properties>
         <Property name="text" type="java.lang.String" value="."/>
       </Properties>

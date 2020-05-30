@@ -14,6 +14,15 @@ public class Course {
     public String Title;
     public int Credits;
 
+    public int getEnrollmentId() {
+        return EnrollmentId;
+    }
+
+    public void setEnrollmentId(int EnrollmentId) {
+        this.EnrollmentId = EnrollmentId;
+    }
+    public int EnrollmentId;
+
     public int getCourseId() {
         return CourseId;
     }
